@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.bignerdranch.andorid.criminalintent.database.CrimeBaseHelper;
@@ -67,7 +68,7 @@ public class CrimeLab {
     public Crime getCrime(UUID id) {
         CrimeCursorWrapper cursor = queryCrimes(
                 CrimeTable.Cols.UUID + " = ?",
-                new String[] {id.toString()}
+                new String[]{id.toString()}
         );
 
         try {
@@ -91,16 +92,16 @@ public class CrimeLab {
                 new String[] {uuidString});
     }
 
-    public void deleteCrime(Crime crime) {
-//        Log.d(TAG, "deleteCrime: " + crime.getId().toString());
-//        for (int i=0; i <= mCrimes.size(); i++) {
-//            Log.d(TAG, "deleteCrime: "+mCrimes.get(i).getId().toString());
-//            if (mCrimes.get(i).getId().equals(crime.getId())) {
-//                mCrimes.remove(i);
-//                break;
-//            }
-//        }
+    public void deleteCrime(UUID id) {
 
+        try {
+            mDatabase.delete(CrimeTable.NAME,
+                    CrimeTable.Cols.UUID + " = ?",
+                    new String[]{id.toString()}
+            );
+        } catch (SQLiteException noColumn) {
+            Log.d(TAG, noColumn.getMessage());
+        }
     }
 
     private static ContentValues getContentValues(Crime crime) {
