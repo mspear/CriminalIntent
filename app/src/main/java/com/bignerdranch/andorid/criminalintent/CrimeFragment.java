@@ -112,7 +112,15 @@ public class CrimeFragment extends Fragment{
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crime, menu);
 
-        MenuItem deleteItem = menu.findItem(R.id.delete_current_crime);
+//        MenuItem deleteItem = menu.findItem(R.id.delete_current_crime);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        CrimeLab.get(getActivity())
+                .updateCrime(mCrime);
     }
 
     @Override
