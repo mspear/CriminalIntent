@@ -60,6 +60,10 @@ public class Crime {
         mTitle = title;
     }
 
+    public String getPhotoFilename() {
+        return "IMG_" + getId().toString() + ".jpg";
+    }
+
 }
 
 
