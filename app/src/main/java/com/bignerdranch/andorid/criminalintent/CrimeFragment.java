@@ -26,7 +26,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+
 
 
 import java.io.File;
@@ -42,11 +42,12 @@ public class CrimeFragment extends Fragment{
 
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
-    private static final String DIALOG_DELETE = "DialogDelete";
+    private static final String DIALOG_SUSPECT = "DialogSuspect";
 
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO = 2;
+    private static final int REQUEST_SUSPECT = 3;
 
     private Crime mCrime;
     private EditText mTitleField;
@@ -56,7 +57,7 @@ public class CrimeFragment extends Fragment{
     private Button mSuspectButton;
     private File mPhotoFile;
     private ImageButton mPhotoButton;
-    private ImageView mPhotoView;
+    private ImageButton mPhotoView;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -177,8 +178,19 @@ public class CrimeFragment extends Fragment{
             }
         });
         
-        mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
+        mPhotoView = (ImageButton) v.findViewById(R.id.crime_photo);
         updatePhotoView();
+        mPhotoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getActivity()
+                        .getSupportFragmentManager();
+                SuspectViewFragment dialog = SuspectViewFragment.
+                        newInsance(mPhotoFile);
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_SUSPECT);
+                dialog.show(manager, DIALOG_SUSPECT);
+            }
+        });
 
         return v;
     }
