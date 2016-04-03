@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * Created by mspear on 3/22/16.
